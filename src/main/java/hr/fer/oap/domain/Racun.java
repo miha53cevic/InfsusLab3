@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 })
 public class Racun {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sifraRacun", nullable = false)
     private Long id;
 

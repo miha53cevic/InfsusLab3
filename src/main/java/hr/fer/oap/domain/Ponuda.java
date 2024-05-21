@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 })
 public class Ponuda {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sifraPonuda", nullable = false)
     private Long id;
 

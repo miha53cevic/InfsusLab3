@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 })
 public class Korisnik {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sifraKorisnik", nullable = false)
     private Long id;
 
