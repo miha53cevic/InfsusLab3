@@ -8,10 +8,11 @@ import jakarta.persistence.*;
 })
 public class Zahtjevpovrataknovca {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sifraZahtjevPovratakNovca", nullable = false)
     private Long id;
 
-    @Column(name = "prihvacen", nullable = false)
+    @Column(name = "prihvacen", nullable = true)
     private Byte prihvacen;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

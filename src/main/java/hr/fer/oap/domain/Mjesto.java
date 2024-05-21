@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 })
 public class Mjesto {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sifraMjesto", nullable = false)
     private Long id;
 

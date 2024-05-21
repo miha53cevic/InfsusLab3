@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 })
 public class Slike {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sifraSlike", nullable = false)
     private Long id;
 

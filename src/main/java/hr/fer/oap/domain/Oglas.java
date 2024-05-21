@@ -11,6 +11,7 @@ import java.time.Instant;
 })
 public class Oglas {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sifraOglas", nullable = false)
     private Long id;
 
