@@ -32,11 +32,25 @@ public class Oglas {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraKorisnik", nullable = false)
-    private Korisnik sifraKorisnik;
+    private Korisnik korisnik;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraMjesto", nullable = false)
-    private Mjesto sifraMjesto;
+    private Mjesto mjesto;
+
+    public Oglas() {
+
+    }
+
+    public Oglas(String naziv, String opis, Float pocetnaCijena, Instant pocetnoVrijeme, Instant zavrsnoVrijeme, Korisnik korisnik, Mjesto mjesto) {
+        this.naziv = naziv;
+        this.opis = opis;
+        this.pocetnaCijena = pocetnaCijena;
+        this.pocetnoVrijeme = pocetnoVrijeme;
+        this.zavrsnoVrijeme = zavrsnoVrijeme;
+        this.korisnik = korisnik;
+        this.mjesto = mjesto;
+    }
 
     public Long getId() {
         return id;
@@ -86,20 +100,20 @@ public class Oglas {
         this.zavrsnoVrijeme = zavrsnoVrijeme;
     }
 
-    public Korisnik getSifraKorisnik() {
-        return sifraKorisnik;
+    public Korisnik getKorisnik() {
+        return korisnik;
     }
 
-    public void setSifraKorisnik(Korisnik sifraKorisnik) {
-        this.sifraKorisnik = sifraKorisnik;
+    public void setKorisnik(Korisnik sifraKorisnik) {
+        this.korisnik = sifraKorisnik;
     }
 
-    public Mjesto getSifraMjesto() {
-        return sifraMjesto;
+    public Mjesto getMjesto() {
+        return mjesto;
     }
 
-    public void setSifraMjesto(Mjesto sifraMjesto) {
-        this.sifraMjesto = sifraMjesto;
+    public void setMjesto(Mjesto sifraMjesto) {
+        this.mjesto = sifraMjesto;
     }
 
 }

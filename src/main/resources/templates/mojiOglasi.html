@@ -4,7 +4,31 @@
 <body>
 <header th:replace="fragments :: header"></header>
 <main class="container">
-    <h1>MojiOglasi</h1>
+    <div class="container mt-5">
+        <h2>Moji oglasi</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Naziv</th>
+                    <th>Najbolja ponuda</th>
+                    <th>Preostalo vrijeme</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="oglas : ${oglasi}">
+                    <td th:text="${oglas.getId()}"></td>
+                    <td th:text="${oglas.getNaziv()}"></td>
+                    <td>30€</td>
+                    <td>3:00h</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <br/>
+        <a class="btn btn-primary" href="/oglas/stvori">Stvori novi oglas</a>
+    </div>
 </main>
 <footer th:replace="fragments :: footer"></footer>
 </body>

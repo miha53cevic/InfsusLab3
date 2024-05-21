@@ -18,7 +18,7 @@ public class Slike {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraOglas", nullable = false)
-    private Oglas sifraOglas;
+    private Oglas oglas;
 
     public Long getId() {
         return id;
@@ -36,12 +36,12 @@ public class Slike {
         this.poveznica = poveznica;
     }
 
-    public Oglas getSifraOglas() {
-        return sifraOglas;
+    public Oglas getOglas() {
+        return oglas;
     }
 
-    public void setSifraOglas(Oglas sifraOglas) {
-        this.sifraOglas = sifraOglas;
+    public void setOglas(Oglas sifraOglas) {
+        this.oglas = sifraOglas;
     }
 
 }

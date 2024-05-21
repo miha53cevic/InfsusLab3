@@ -5,7 +5,7 @@
     <title>Online Auction Platform</title>
     <!-- Bootstrap CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <script src="/javascript/bootstrap.bundle.min.js" defer></script>
+    <script src="/javascript/bootstrap.bundle.min.js"></script>
     <style>
         main {
             min-height: 100vh;
@@ -25,9 +25,20 @@
                         <a class="nav-link" href="/" th:classappend="${page == 'oglasnik'} ? 'active' : ''">Oglasnik</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/moji-oglasi" th:classappend="${page == 'moji-oglasi'} ? 'active' : ''">MojiOglasi</a>
+                        <a class="nav-link" href="/moji-oglasi" th:classappend="${page == 'moji-oglasi'} ? 'active' : ''">Moji Oglasi</a>
                     </li>
                 </ul>
+            </div>
+            <div th:if="${username}" class="d-flex justify-content-end align-items-center gap-3">
+                <p class="text-light m-0" th:text="'Pozdrav, ' + ${username}"></p>
+                <form th:action="@{/logout}" method="post" class="text-end">
+                    <input class="btn btn-primary" type="submit" value="Odjava"/>
+                </form>
+            </div>
+            <div th:if="${username} == null" class="d-flex justify-content-end align-items-center">
+                <form th:action="@{/login}" method="post" class="text-end">
+                    <a href="/login" class="btn btn-primary">Prijava</a>
+                </form>
             </div>
         </nav>
     </header>

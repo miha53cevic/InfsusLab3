@@ -17,7 +17,7 @@ public class Mjesto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "oznaka", nullable = false)
-    private Drzava oznaka;
+    private Drzava drzava;
 
     public Long getId() {
         return id;
@@ -35,12 +35,12 @@ public class Mjesto {
         this.naziv = naziv;
     }
 
-    public Drzava getOznaka() {
-        return oznaka;
+    public Drzava getDrzava() {
+        return drzava;
     }
 
-    public void setOznaka(Drzava oznaka) {
-        this.oznaka = oznaka;
+    public void setDrzava(Drzava oznaka) {
+        this.drzava = oznaka;
     }
 
 }

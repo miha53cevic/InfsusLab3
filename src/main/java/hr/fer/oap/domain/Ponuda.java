@@ -25,11 +25,11 @@ public class Ponuda {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraOglas", nullable = false)
-    private Oglas sifraOglas;
+    private Oglas oglas;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraKorisnik", nullable = false)
-    private Korisnik sifraKorisnik;
+    private Korisnik korisnik;
 
     public Long getId() {
         return id;
@@ -63,20 +63,20 @@ public class Ponuda {
         this.maksIznos = maksIznos;
     }
 
-    public Oglas getSifraOglas() {
-        return sifraOglas;
+    public Oglas getOglas() {
+        return oglas;
     }
 
-    public void setSifraOglas(Oglas sifraOglas) {
-        this.sifraOglas = sifraOglas;
+    public void setOglas(Oglas sifraOglas) {
+        this.oglas = sifraOglas;
     }
 
-    public Korisnik getSifraKorisnik() {
-        return sifraKorisnik;
+    public Korisnik getKorisnik() {
+        return korisnik;
     }
 
-    public void setSifraKorisnik(Korisnik sifraKorisnik) {
-        this.sifraKorisnik = sifraKorisnik;
+    public void setKorisnik(Korisnik sifraKorisnik) {
+        this.korisnik = sifraKorisnik;
     }
 
 }
