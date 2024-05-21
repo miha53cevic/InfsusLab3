@@ -13,12 +13,12 @@ public class Pripadakategoriji {
     @MapsId("sifraOglas")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraOglas", nullable = false)
-    private Oglas sifraOglas;
+    private Oglas oglas;
 
     @MapsId("sifraKategorija")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraKategorija", nullable = false)
-    private Kategorija sifraKategorija;
+    private Kategorija kategorija;
 
     public PripadakategorijiId getId() {
         return id;
@@ -28,20 +28,20 @@ public class Pripadakategoriji {
         this.id = id;
     }
 
-    public Oglas getSifraOglas() {
-        return sifraOglas;
+    public Oglas getOglas() {
+        return oglas;
     }
 
-    public void setSifraOglas(Oglas sifraOglas) {
-        this.sifraOglas = sifraOglas;
+    public void setOglas(Oglas sifraOglas) {
+        this.oglas = sifraOglas;
     }
 
-    public Kategorija getSifraKategorija() {
-        return sifraKategorija;
+    public Kategorija getKategorija() {
+        return kategorija;
     }
 
-    public void setSifraKategorija(Kategorija sifraKategorija) {
-        this.sifraKategorija = sifraKategorija;
+    public void setKategorija(Kategorija sifraKategorija) {
+        this.kategorija = sifraKategorija;
     }
 
 }

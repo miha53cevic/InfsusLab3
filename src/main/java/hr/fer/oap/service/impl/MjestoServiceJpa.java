@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MjestoServiceJpa implements MjestoService {
@@ -18,7 +19,12 @@ public class MjestoServiceJpa implements MjestoService {
     }
 
     @Override
-    public List<Mjesto> fetchAll() {
-        return mjestoRepository.findAll();
+    public List<Mjesto> fetchByDrzavaOznaka(String drzavaOznaka) {
+        return mjestoRepository.fetchByDrzavaOznaka(drzavaOznaka);
+    }
+
+    @Override
+    public Optional<Mjesto> fetchById(Long id) {
+        return mjestoRepository.findById(id);
     }
 }

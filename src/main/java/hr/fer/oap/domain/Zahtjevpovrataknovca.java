@@ -17,7 +17,7 @@ public class Zahtjevpovrataknovca {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraRacun", nullable = false)
-    private Racun sifraRacun;
+    private Racun racun;
 
     public Long getId() {
         return id;
@@ -35,12 +35,12 @@ public class Zahtjevpovrataknovca {
         this.prihvacen = prihvacen;
     }
 
-    public Racun getSifraRacun() {
-        return sifraRacun;
+    public Racun getRacun() {
+        return racun;
     }
 
-    public void setSifraRacun(Racun sifraRacun) {
-        this.sifraRacun = sifraRacun;
+    public void setRacun(Racun sifraRacun) {
+        this.racun = sifraRacun;
     }
 
 }
