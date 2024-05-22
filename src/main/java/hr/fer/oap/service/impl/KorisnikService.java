@@ -2,18 +2,17 @@ package hr.fer.oap.service.impl;
 
 import hr.fer.oap.dao.repository.KorisnikRepository;
 import hr.fer.oap.domain.Korisnik;
-import hr.fer.oap.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class KorisnikServiceJpa implements KorisnikService {
+public class KorisnikService implements hr.fer.oap.service.KorisnikService {
     private final KorisnikRepository korisnikRepository;
 
     @Autowired
-    public KorisnikServiceJpa(KorisnikRepository korisnikRepository) {
+    public KorisnikService(KorisnikRepository korisnikRepository) {
         this.korisnikRepository = korisnikRepository;
     }
 

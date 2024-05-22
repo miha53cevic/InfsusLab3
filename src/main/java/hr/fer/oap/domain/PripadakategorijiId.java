@@ -2,6 +2,7 @@ package hr.fer.oap.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
@@ -9,11 +10,16 @@ import java.util.Objects;
 @Embeddable
 public class PripadakategorijiId implements java.io.Serializable {
     private static final long serialVersionUID = 3321205406264924740L;
-    @Column(name = "sifraOglas", nullable = false)
+    @NotNull
+    @Column(name = "sifra_oglas", nullable = false)
     private Long sifraOglas;
 
-    @Column(name = "sifraKategorija", nullable = false)
+    @NotNull
+    @Column(name = "sifra_kategorija", nullable = false)
     private Long sifraKategorija;
+
+    public PripadakategorijiId() {
+    }
 
     public Long getSifraOglas() {
         return sifraOglas;
@@ -21,6 +27,11 @@ public class PripadakategorijiId implements java.io.Serializable {
 
     public void setSifraOglas(Long sifraOglas) {
         this.sifraOglas = sifraOglas;
+    }
+
+    public PripadakategorijiId(Long sifraOglas, Long sifraKategorija) {
+        this.sifraOglas = sifraOglas;
+        this.sifraKategorija = sifraKategorija;
     }
 
     public Long getSifraKategorija() {

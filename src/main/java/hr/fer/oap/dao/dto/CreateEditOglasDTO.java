@@ -4,8 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-public class CreateOglasDTO {
+public class CreateEditOglasDTO {
 
     @NotBlank(message = "Naziv cannot be blank")
     private String naziv;
@@ -24,6 +25,9 @@ public class CreateOglasDTO {
 
     @NotNull(message = "Mjesto cannot be null")
     private Long mjesto;
+
+    @NotNull(message = "Kategorije cannot be null")
+    private List<Long> kategorije;
 
     public @NotBlank(message = "Naziv cannot be blank") String getNaziv() {
         return naziv;
@@ -71,5 +75,13 @@ public class CreateOglasDTO {
 
     public void setMjesto(@NotNull(message = "Mjesto cannot be null") Long mjesto) {
         this.mjesto = mjesto;
+    }
+
+    public @NotNull(message = "Kategorije cannot be null") List<Long> getKategorije() {
+        return kategorije;
+    }
+
+    public void setKategorije(@NotNull(message = "Kategorije cannot be null") List<Long> kategorije) {
+        this.kategorije = kategorije;
     }
 }

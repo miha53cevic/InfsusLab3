@@ -2,7 +2,7 @@ package hr.fer.oap.domain;
 
 import jakarta.persistence.*;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "oglas", indexes = {
@@ -25,10 +25,10 @@ public class Oglas {
     private Float pocetnaCijena;
 
     @Column(name = "pocetnoVrijeme", nullable = false)
-    private Instant pocetnoVrijeme;
+    private LocalDateTime pocetnoVrijeme;
 
     @Column(name = "zavrsnoVrijeme", nullable = false)
-    private Instant zavrsnoVrijeme;
+    private LocalDateTime zavrsnoVrijeme;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraKorisnik", nullable = false)
@@ -42,7 +42,7 @@ public class Oglas {
 
     }
 
-    public Oglas(String naziv, String opis, Float pocetnaCijena, Instant pocetnoVrijeme, Instant zavrsnoVrijeme, Korisnik korisnik, Mjesto mjesto) {
+    public Oglas(String naziv, String opis, Float pocetnaCijena, LocalDateTime pocetnoVrijeme, LocalDateTime zavrsnoVrijeme, Korisnik korisnik, Mjesto mjesto) {
         this.naziv = naziv;
         this.opis = opis;
         this.pocetnaCijena = pocetnaCijena;
@@ -84,19 +84,19 @@ public class Oglas {
         this.pocetnaCijena = pocetnaCijena;
     }
 
-    public Instant getPocetnoVrijeme() {
+    public LocalDateTime getPocetnoVrijeme() {
         return pocetnoVrijeme;
     }
 
-    public void setPocetnoVrijeme(Instant pocetnoVrijeme) {
+    public void setPocetnoVrijeme(LocalDateTime pocetnoVrijeme) {
         this.pocetnoVrijeme = pocetnoVrijeme;
     }
 
-    public Instant getZavrsnoVrijeme() {
+    public LocalDateTime getZavrsnoVrijeme() {
         return zavrsnoVrijeme;
     }
 
-    public void setZavrsnoVrijeme(Instant zavrsnoVrijeme) {
+    public void setZavrsnoVrijeme(LocalDateTime zavrsnoVrijeme) {
         this.zavrsnoVrijeme = zavrsnoVrijeme;
     }
 

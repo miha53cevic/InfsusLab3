@@ -15,6 +15,14 @@ public class Drzava {
     @Column(name = "naziv", nullable = false, length = 50)
     private String naziv;
 
+    public Drzava() {
+    }
+
+    public Drzava(String oznaka, String naziv) {
+        this.oznaka = oznaka;
+        this.naziv = naziv;
+    }
+
     public String getOznaka() {
         return oznaka;
     }

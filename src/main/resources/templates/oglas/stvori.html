@@ -4,8 +4,7 @@
 <body>
 <header th:replace="fragments :: header"></header>
 <main class="container">
-
-    <form action="/oglas/stvori" method="get" class="mt-3">
+    <form action="" method="get" class="mt-3">
         <!-- Drzava select element -->
         <div class="mt-3">
             <label for="drzava" class="form-label">Drzava</label>
@@ -21,7 +20,7 @@
         </div>
     </form>
 
-    <form action="/oglas/stvori" method="post" class="mt-3" th:if="${odabranaDrzavaOznaka}">
+    <form action="" method="post" class="mt-3" th:if="${odabranaDrzavaOznaka}">
 
         <input type="hidden" name="drzava" th:value="${odabranaDrzavaOznaka}" />
 
@@ -29,7 +28,6 @@
         <div class="mb-3">
             <label for="mjesto" class="form-label">Mjesto</label>
             <select class="form-select" id="mjesto" name="mjesto" required>
-                <!-- Populate select options with data from your database -->
                 <option th:each="mjesto : ${mjesta}"
                         th:value="${mjesto.getId()}"
                         th:text="${mjesto.getNaziv()}"
@@ -69,8 +67,16 @@
         </div>
 
         <!-- Kategorije-->
+        <!-- Kategorije select element -->
         <div class="mb-3">
-            Kategorije TODO
+            <label for="kategorije" class="form-label">Kategorije</label>
+            <select multiple class="form-select" id="kategorije" name="kategorije[]" required>
+                <option th:each="kategorija : ${kategorije}"
+                        th:value="${kategorija.getId()}"
+                        th:text="${kategorija.getNaziv()}"
+                >
+                </option>
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary">Stvori novi oglas</button>

@@ -15,6 +15,14 @@ public class Racun {
     @Column(name = "iznos", nullable = false)
     private Float iznos;
 
+    public Racun() {
+    }
+
+    public Racun(Float iznos, Ponuda ponuda) {
+        this.iznos = iznos;
+        this.ponuda = ponuda;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraPonuda", nullable = false)
     private Ponuda ponuda;

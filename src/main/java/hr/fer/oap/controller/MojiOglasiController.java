@@ -1,6 +1,8 @@
 package hr.fer.oap.controller;
 
-import hr.fer.oap.dao.repository.KorisnikRepository;
+import hr.fer.oap.mapping.MappingToFilteredOglasi;
+import hr.fer.oap.mapping.MappingToOglasDuration;
+import hr.fer.oap.service.KorisnikService;
 import hr.fer.oap.service.OglasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,22 +11,36 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller()
 @RequestMapping("moji-oglasi")
 public class MojiOglasiController {
     private final OglasService oglasService;
+    private final KorisnikService korisnikService;
 
     @Autowired
-    public MojiOglasiController(OglasService oglasService, KorisnikRepository korisnikRepository) {
+    public MojiOglasiController(OglasService oglasService, KorisnikService korisnikService) {
         this.oglasService = oglasService;
+        this.korisnikService = korisnikService;
     }
 
     @GetMapping("")
-    public String index(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String index(@AuthenticationPrincipal UserDetails userDetails, Model model,
+                        @RequestParam(value = "searchNaziv", required = false) String nazivOglasa) {
+        var korisnik = korisnikService.fetchByUsername(userDetails.getUsername()).get();
+        var oglasi = oglasService.fetchByKorisnikId(korisnik.getId());
+        if (nazivOglasa != null) {
+            oglasi = MappingToFilteredOglasi.fromOglasiByNaziv(oglasi, nazivOglasa);
+        }
+        List<Long> hoursLeftList = oglasi.stream().map(MappingToOglasDuration::oglasToDuration).toList();
         model.addAttribute("page", "moji-oglasi");
         model.addAttribute("username", userDetails.getUsername());
-        model.addAttribute("oglasi", oglasService.fetchByKorisnikId((long)1));
+        model.addAttribute("oglasi", oglasi);
+        model.addAttribute("searchNaziv", nazivOglasa);
+        model.addAttribute("hoursLeftList", hoursLeftList);
         return "mojiOglasi";
     }
 }
