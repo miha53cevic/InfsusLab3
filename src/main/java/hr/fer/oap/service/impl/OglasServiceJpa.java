@@ -5,7 +5,6 @@ import hr.fer.oap.dao.repository.OglasRepository;
 import hr.fer.oap.domain.Korisnik;
 import hr.fer.oap.domain.Mjesto;
 import hr.fer.oap.domain.Oglas;
-import hr.fer.oap.service.MjestoService;
 import hr.fer.oap.service.OglasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class KategorijaServiceJpa implements KategorijaService {
-    private KategorijaRepository kategorijaRepository;
+    private final KategorijaRepository kategorijaRepository;
 
     public KategorijaServiceJpa(KategorijaRepository repository) {
         this.kategorijaRepository = repository;

@@ -1,7 +1,6 @@
 package hr.fer.oap.controller;
 
-import hr.fer.oap.domain.Oglas;
-import hr.fer.oap.service.MjestoService;
+import hr.fer.oap.dao.repository.KorisnikRepository;
 import hr.fer.oap.service.OglasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,15 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-
 @Controller()
 @RequestMapping("moji-oglasi")
 public class MojiOglasiController {
     private final OglasService oglasService;
 
     @Autowired
-    public MojiOglasiController(OglasService oglasService) {
+    public MojiOglasiController(OglasService oglasService, KorisnikRepository korisnikRepository) {
         this.oglasService = oglasService;
     }
 
