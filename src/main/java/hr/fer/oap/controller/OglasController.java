@@ -58,9 +58,8 @@ public class OglasController {
     @Validated
     @PostMapping("/{id}/uredi")
     String edit(@AuthenticationPrincipal UserDetails userDetails, @Valid @ModelAttribute CreateEditOglasDTO dto) {
-        var mjesto = mjestoService.fetchById(dto.getMjesto()).get();
         var korisnik = korisnikService.fetchByUsername(userDetails.getUsername()).get();
-        var oglas = oglasService.createOglas(dto, mjesto, korisnik);
+        var oglas = oglasService.createOglas(dto, korisnik);
         return "redirect:/moji-oglasi";
     }
 
@@ -78,9 +77,8 @@ public class OglasController {
     @Validated
     @PostMapping("/stvori")
     String stvoriOglas(@AuthenticationPrincipal UserDetails userDetails, @Valid @ModelAttribute CreateEditOglasDTO dto) {
-        var mjesto = mjestoService.fetchById(dto.getMjesto()).get();
         var korisnik = korisnikService.fetchByUsername(userDetails.getUsername()).get();
-        var oglas = oglasService.createOglas(dto, mjesto, korisnik);
+        var oglas = oglasService.createOglas(dto, korisnik);
         dto.getKategorije().forEach(kategorijaId -> {
             var kategorija = kategorijaService.findById(kategorijaId).get();
             pripadaKategorijiService.addKategorijaToOglas(kategorija, oglas);
