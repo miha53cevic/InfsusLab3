@@ -19,6 +19,14 @@ public class Mjesto {
     @JoinColumn(name = "oznaka", nullable = false)
     private Drzava drzava;
 
+    public Mjesto() {
+    }
+
+    public Mjesto(String naziv, Drzava drzava) {
+        this.naziv = naziv;
+        this.drzava = drzava;
+    }
+
     public Long getId() {
         return id;
     }

@@ -16,6 +16,14 @@ public class Slike {
     @Column(name = "poveznica", nullable = false)
     private String poveznica;
 
+    public Slike() {
+    }
+
+    public Slike(String poveznica, Oglas oglas) {
+        this.poveznica = poveznica;
+        this.oglas = oglas;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraOglas", nullable = false)
     private Oglas oglas;

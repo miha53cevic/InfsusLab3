@@ -27,6 +27,17 @@ public class Ponuda {
     @JoinColumn(name = "sifraOglas", nullable = false)
     private Oglas oglas;
 
+    public Ponuda() {
+    }
+
+    public Ponuda(Float trenutniIznos, Float povecanje, Float maksIznos, Oglas oglas, Korisnik korisnik) {
+        this.trenutniIznos = trenutniIznos;
+        this.povecanje = povecanje;
+        this.maksIznos = maksIznos;
+        this.oglas = oglas;
+        this.korisnik = korisnik;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sifraKorisnik", nullable = false)
     private Korisnik korisnik;

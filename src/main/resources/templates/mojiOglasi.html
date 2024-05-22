@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: head"></head>
+<head th:replace="fragments :: head">
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
 <body>
 <header th:replace="fragments :: header"></header>
 <main class="container">
+
     <div class="container mt-5">
         <h2>Moji oglasi</h2>
+        <br/>
+        <div>
+            <form class="form-inline" method="get" action="">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Traži po nazivu"
+                           name="searchNaziv" th:value="${searchNaziv}">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('searchInput').value='';this.form.submit()">Clear</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <br/>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
@@ -14,6 +32,7 @@
                     <th>Naziv</th>
                     <th>Najbolja ponuda</th>
                     <th>Preostalo vrijeme</th>
+                    <th class="w-25">Akcije</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,6 +41,10 @@
                     <td th:text="${oglas.getNaziv()}"></td>
                     <td>30€</td>
                     <td>3:00h</td>
+                    <td class="text-center">
+                        <a class="btn btn-primary" th:href="'/oglas/' + ${oglas.getId()}">Idi na oglas</a>
+                        <a class="btn btn-secondary" th:href="'/oglas/' + ${oglas.getId()} + '/uredi'">Uredi</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

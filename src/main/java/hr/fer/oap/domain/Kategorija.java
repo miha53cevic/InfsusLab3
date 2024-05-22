@@ -10,6 +10,13 @@ public class Kategorija {
     @Column(name = "sifraKategorija", nullable = false)
     private Long id;
 
+    public Kategorija() {
+    }
+
+    public Kategorija(String naziv) {
+        this.naziv = naziv;
+    }
+
     @Column(name = "naziv", nullable = false, length = 100)
     private String naziv;
 

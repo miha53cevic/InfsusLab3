@@ -19,6 +19,14 @@ public class Zahtjevpovrataknovca {
     @JoinColumn(name = "sifraRacun", nullable = false)
     private Racun racun;
 
+    public Zahtjevpovrataknovca() {
+    }
+
+    public Zahtjevpovrataknovca(Byte prihvacen, Racun racun) {
+        this.prihvacen = prihvacen;
+        this.racun = racun;
+    }
+
     public Long getId() {
         return id;
     }
