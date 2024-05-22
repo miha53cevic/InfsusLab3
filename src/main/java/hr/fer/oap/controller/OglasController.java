@@ -12,15 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
 @Controller()
 @RequestMapping("oglas")
 public class OglasController {
-    private MjestoService mjestoService;
-    private DrzavaService drzavaService;
-    private OglasService oglasService;
-    private KorisnikService korisnikService;
+    private final MjestoService mjestoService;
+    private final DrzavaService drzavaService;
+    private final OglasService oglasService;
+    private final KorisnikService korisnikService;
 
     public OglasController(MjestoService mjestoService, DrzavaService drzavaService,
                            OglasService oglasService, KorisnikService korisnikService) {

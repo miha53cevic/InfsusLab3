@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 public class KorisnikServiceJpa implements KorisnikService {
-    private KorisnikRepository korisnikRepository;
+    private final KorisnikRepository korisnikRepository;
 
     @Autowired
     public KorisnikServiceJpa(KorisnikRepository korisnikRepository) {
@@ -20,5 +20,10 @@ public class KorisnikServiceJpa implements KorisnikService {
     @Override
     public Optional<Korisnik> fetchByUsername(String username) {
         return korisnikRepository.findByIme(username);
+    }
+
+    @Override
+    public Korisnik createKorisnik(Korisnik korisnik) {
+        return korisnikRepository.save(korisnik);
     }
 }

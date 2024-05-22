@@ -25,6 +25,16 @@ public class Korisnik {
     @Column(name = "admin", nullable = false)
     private Byte admin;
 
+    public Korisnik() {
+    }
+
+    public Korisnik(String email, String ime, String lozinka, Byte admin) {
+        this.email = email;
+        this.ime = ime;
+        this.lozinka = lozinka;
+        this.admin = admin;
+    }
+
     public Long getId() {
         return id;
     }

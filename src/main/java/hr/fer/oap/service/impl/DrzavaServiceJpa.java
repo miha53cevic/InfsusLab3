@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class DrzavaServiceJpa implements DrzavaService {
-    private DrzavaRepository drzavaRepository;
+    private final DrzavaRepository drzavaRepository;
 
     public DrzavaServiceJpa(DrzavaRepository drzavaRepository) {
         this.drzavaRepository = drzavaRepository;
