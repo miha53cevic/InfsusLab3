@@ -3,8 +3,73 @@
 <head th:replace="fragments :: head"></head>
 <body>
 <header th:replace="fragments :: header"></header>
-<main class="container">
-    <h1>Oglasnik</h1>
+<main class="container align-items-center">
+    <div class="text-center">
+        <h1 class=" font-monospace fw-bold mt-4">OGLASNIK</h1>
+    </div>
+    <div class="mb-4 align-items-center">
+        <form class="form" method="get" action="/oglasnik">
+            <div class="input-group mb-2">
+                <div class="d-flex align-items-baseline w-100">
+                    <!-- Naziv input field -->
+                    <div class="mt-4 w-100">
+                        <label for="searchInput" class="form-label">Traži prema nazivu</label>
+                        <input type="text" class="form-control mr-4" id="searchInput" placeholder="Traži po nazivu"
+                               name="searchInput" th:value="${searchNaziv}">
+                    </div>
+                    <!-- Kategorije select element -->
+                    <div class="mt-4 w-100 ms-2">
+                        <label for="kategorija" class="form-label">Kategorija</label>
+                        <select class="form-select" id="kategorija" name="kategorija">
+                            <option id="" value="" th:text="Sve">
+                            </option>
+                            <option th:each="kategorija : ${kategorije}"
+                                    th:value="${kategorija.getId()}"
+                                    th:text="${kategorija.getNaziv()}"
+                            >
+                            </option>
+                        </select>
+                    </div>
+                    <!-- Vrijeme isteka select element -->
+                    <div class="mt-4 w-100 ms-2">
+                        <label for="vrijeme_isteka" class="form-label">Filtriraj prema vremenu isteka</label>
+                        <select class="form-select" id="vrijeme_isteka" name="vrijeme_isteka">
+                            <option selected value="0">Svi</option>
+                            <option value="1">Istekli</option>
+                            <option value="2">U tijeku</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="w-100">
+                    <div class="input-group-append d-flex mt-4 align-items-center justify-content-end">
+                        <button type="submit" class="btn btn-primary m-1">Search</button>
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('searchInput').value='';document.getElementById('kategorija').value='';document.getElementById('vrijeme_isteka').value='';this.form.submit()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="list-responsive flex-grow-1">
+        <ul class="list-group">
+            <li th:each="oglas : ${oglasi}" class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="w-100">
+                    <span th:text="${oglas.getNaziv()}"></span>
+                </div>
+                <div class="w-50">
+                    <span>30€</span>
+                </div>
+                <div class="w-50">
+                    <span>3:00h</span>
+                </div>
+                <div class="w-50">
+                    <span>3:00h</span>
+                </div>
+                <div class="w-50">
+                    <span>3:00h</span>
+                </div>
+            </li>
+        </ul>
+    </div>
 </main>
 <footer th:replace="fragments :: footer"></footer>
 </body>
