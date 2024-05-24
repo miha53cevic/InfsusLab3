@@ -4,7 +4,35 @@
 <body>
 <header th:replace="fragments :: header"></header>
 <main class="container">
-    <h1 th:text="'Oglas ' + ${oglasId}"></h1>
+    <div class="d-flex flex-column">
+        <div class="mb-2">
+            <span th:text="${oglas.getNaziv()}" class="font-weight-bold text-uppercase" style="font-size: 1.5em; text-decoration: underline;"></span>
+        </div>
+        <div class="flex-grow-1 mb-2">
+            <span style="font-weight: bold;">Najviša ponuda: 30€</span>
+        </div>
+        <div class="flex-grow-1 mb-2">
+            Vrijeme početka: <span th:text="${#temporals.format(oglas.getPocetnoVrijeme(), 'dd/MM/yyyy HH:mm')}"></span>
+        </div>
+        <div class="flex-grow-1 mb-2">
+            Vrijeme završetka: <span th:text="${#temporals.format(oglas.getZavrsnoVrijeme(), 'dd/MM/yyyy HH:mm')}"></span>
+        </div>
+        <div class="flex-grow-1 mb-2">
+            Vrijeme do isteka: <span th:text="${hoursLeft} + 'h'"></span>
+        </div>
+        <div class="flex-grow-1 mb-2">
+            Mjesto: <span th:text="${mjesto}"></span>
+        </div>
+        <div class="flex-grow-1 mb-2">
+            Država: <span th:text="${drzava}"></span>
+        </div>
+        <div class="flex-grow-1 mb-2">
+            Opis: <span th:text="${oglas.getOpis()}"></span>
+        </div>
+        <div class="flex-grow-1 mb-2">
+            Ponude:
+        </div>
+    </div>
 </main>
 <footer th:replace="fragments :: footer"></footer>
 </body>
