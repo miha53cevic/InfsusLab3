@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class KorisnikService implements hr.fer.oap.service.KorisnikService {
+public class KorisnikServiceJpa implements hr.fer.oap.service.KorisnikService {
     private final KorisnikRepository korisnikRepository;
 
     @Autowired
-    public KorisnikService(KorisnikRepository korisnikRepository) {
+    public KorisnikServiceJpa(KorisnikRepository korisnikRepository) {
         this.korisnikRepository = korisnikRepository;
     }
 

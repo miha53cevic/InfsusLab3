@@ -1,6 +1,7 @@
 package hr.fer.oap.controller;
 
 import hr.fer.oap.dao.dto.CreateEditOglasDTO;
+import hr.fer.oap.mapping.MappingToOglasDuration;
 import hr.fer.oap.service.*;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,8 +33,20 @@ public class OglasController {
     }
 
     @GetMapping("/{id}")
-    String index(@PathVariable("id") Long oglasId, Model model) {
+    String index(@AuthenticationPrincipal UserDetails userDetails,
+                 @PathVariable("id") Long oglasId, Model model) {
+        var oglas = oglasService.fetchById(oglasId).get();
+        Long hoursLeft = MappingToOglasDuration.oglasToDuration(oglas);
+        var mjesto = oglas.getMjesto().getNaziv();
+        var drzava = oglas.getMjesto().getDrzava().getNaziv();
+
+
+        model.addAttribute("oglas", oglas);
         model.addAttribute("oglasId", oglasId);
+        model.addAttribute("username", userDetails.getUsername());
+        model.addAttribute("hoursLeft", hoursLeft);
+        model.addAttribute("mjesto", mjesto);
+        model.addAttribute("drzava", drzava);
         return "oglas/prikaz";
     }
 

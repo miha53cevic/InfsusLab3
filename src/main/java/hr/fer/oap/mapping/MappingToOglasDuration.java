@@ -3,10 +3,11 @@ package hr.fer.oap.mapping;
 import hr.fer.oap.domain.Oglas;
 
 import java.time.Duration;
-
+import java.time.LocalDateTime;
 public class MappingToOglasDuration {
-    public static Long oglasToDuration(Oglas oglas) {
-        var duration = Duration.between(oglas.getPocetnoVrijeme(), oglas.getZavrsnoVrijeme());
-        return duration.toHours();
+    public static long oglasToDuration(Oglas oglas) {
+        LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(now, oglas.getZavrsnoVrijeme());
+        return Math.max(duration.toHours(), 0);
     }
 }

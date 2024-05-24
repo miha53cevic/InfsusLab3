@@ -1,6 +1,7 @@
 package hr.fer.oap.service;
 
 import hr.fer.oap.dao.dto.CreateEditOglasDTO;
+import hr.fer.oap.domain.Kategorija;
 import hr.fer.oap.domain.Korisnik;
 import hr.fer.oap.domain.Oglas;
 
@@ -12,4 +13,5 @@ public interface OglasService {
     Optional<Oglas> fetchById(Long id);
     List<Oglas> fetchByKorisnikId(Long korisnikId);
     Oglas createOglas(CreateEditOglasDTO dto, Korisnik korisnik);
+    List<Oglas> findAllByKategorija(Kategorija kategorija);
 }

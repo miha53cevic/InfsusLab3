@@ -112,8 +112,8 @@ public class Oglas {
         return mjesto;
     }
 
-    public void setMjesto(Mjesto sifraMjesto) {
-        this.mjesto = sifraMjesto;
+    public void setMjesto(Mjesto mjesto) {
+        this.mjesto = mjesto;
     }
 
 }
