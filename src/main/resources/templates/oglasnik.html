@@ -32,8 +32,8 @@
                     </div>
                     <!-- Vrijeme isteka select element -->
                     <div class="mt-4 w-100 ms-2">
-                        <label for="vrijeme_isteka" class="form-label">Filtriraj prema vremenu isteka</label>
-                        <select class="form-select" id="vrijeme_isteka" name="vrijeme_isteka">
+                        <label for="istekli" class="form-label">Filtriraj prema vremenu isteka</label>
+                        <select class="form-select" id="istekli" name="istekli">
                             <option selected value="0">Svi</option>
                             <option value="1">Istekli</option>
                             <option value="2">U tijeku</option>
@@ -43,7 +43,7 @@
                 <div class="w-100">
                     <div class="input-group-append d-flex mt-4 align-items-center justify-content-end">
                         <button type="submit" class="btn btn-primary m-1">Search</button>
-                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('searchInput').value='';document.getElementById('kategorija').value='';document.getElementById('vrijeme_isteka').value='';this.form.submit()">Clear</button>
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('searchInput').value='';document.getElementById('kategorija').value='';document.getElementById('istekli').value='';this.form.submit()">Clear</button>
                     </div>
                 </div>
             </div>
@@ -51,22 +51,30 @@
     </div>
     <div class="list-responsive flex-grow-1">
         <ul class="list-group">
-            <li th:each="oglas : ${oglasi}" class="list-group-item d-flex justify-content-between align-items-center">
-                <div class="w-100">
-                    <span th:text="${oglas.getNaziv()}"></span>
-                </div>
-                <div class="w-50">
-                    <span>30€</span>
-                </div>
-                <div class="w-50">
-                    <span>3:00h</span>
-                </div>
-                <div class="w-50">
-                    <span>3:00h</span>
-                </div>
-                <div class="w-50">
-                    <span>3:00h</span>
-                </div>
+            <li th:each="oglas, i : ${oglasi}" class="list-group-item d-flex w-100">
+                <a class="w-100" th:id="'link-' + ${oglas.getId()}" th:attr="href=@{/oglas/{id}(id=${oglas.getId()})}" style="color: inherit; text-decoration: none;">
+                    <div class="d-flex flex-column">
+                        <div class="mb-2">
+                            <span th:text="${oglas.getNaziv()}" class="font-weight-bold text-uppercase" style="font-size: 1.5em; text-decoration: underline;"></span>
+                        </div>
+                        <div class="d-flex justify-content-between flex-grow-1">
+                            <div class="flex-grow-1">
+                                <span style="font-weight: bold;">Najviša ponuda: 30€</span>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-grow-1">
+                            <div class="flex-grow-1">
+                                Vrijeme početka: <span th:text="${#temporals.format(oglas.getPocetnoVrijeme(), 'dd/MM/yyyy HH:mm')}"></span>
+                            </div>
+                            <div class="flex-grow-1">
+                                Vrijeme završetka: <span th:text="${#temporals.format(oglas.getZavrsnoVrijeme(), 'dd/MM/yyyy HH:mm')}"></span>
+                            </div>
+                            <div class="flex-grow-1" >
+                                Vrijeme do isteka: <span th:text="${hoursLeftList[i.index]} + 'h'"></span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
             </li>
         </ul>
     </div>
