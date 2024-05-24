@@ -67,6 +67,8 @@ public class OglasnikController {
         model.addAttribute("oglasi", oglasi);
         model.addAttribute("kategorije", kategorije);
         model.addAttribute("hoursLeftList", hoursLeftList);
+        model.addAttribute("searchKategorija", searchKategorija);
+        model.addAttribute("istekli", istekli);
         return "oglasnik";
     }
 

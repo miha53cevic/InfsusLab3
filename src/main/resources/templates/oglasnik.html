@@ -26,6 +26,7 @@
                             <option th:each="kategorija : ${kategorije}"
                                     th:value="${kategorija.getId()}"
                                     th:text="${kategorija.getNaziv()}"
+                                    th:selected="${kategorija.getId()} == ${searchKategorija}"
                             >
                             </option>
                         </select>
@@ -34,9 +35,9 @@
                     <div class="mt-4 w-100 ms-2">
                         <label for="istekli" class="form-label">Filtriraj prema vremenu isteka</label>
                         <select class="form-select" id="istekli" name="istekli">
-                            <option selected value="0">Svi</option>
-                            <option value="1">Istekli</option>
-                            <option value="2">U tijeku</option>
+                            <option th:selected="${'0'} == ${istekli}" value="0">Svi</option>
+                            <option th:selected="${'1'} == ${istekli}" value="1">Istekli</option>
+                            <option th:selected="${'2'} == ${istekli}" value="2">U tijeku</option>
                         </select>
                     </div>
                 </div>
