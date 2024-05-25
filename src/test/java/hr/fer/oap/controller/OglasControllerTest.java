@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ class OglasControllerTest {
     private PripadaKategorijiService pripadaKategorijiService;
     private Model model;
     private UserDetails userDetails;
+    private BindingResult bindingResult;
 
     @BeforeEach
     void setUp() {
@@ -39,6 +41,7 @@ class OglasControllerTest {
         korisnikService = mock(KorisnikService.class);
         kategorijaService = mock(KategorijaService.class);
         pripadaKategorijiService = mock(PripadaKategorijiService.class);
+        bindingResult = mock(BindingResult.class);
         model = mock(Model.class);
         userDetails = mock(UserDetails.class);
         controller = new OglasController(mjestoService, drzavaService, oglasService, korisnikService, kategorijaService, pripadaKategorijiService);
@@ -85,10 +88,11 @@ class OglasControllerTest {
 
     @Test
     void OglasControllerTest_StvoriOglasForm() {
-        String viewName = controller.stvoriOglasForm(userDetails, model, null);
+
+        String viewName = controller.stvoriOglasForm(userDetails, model, null, null);
         assertEquals("oglas/stvori", viewName);
 
-        verify(model, times(5)).addAttribute(any(String.class), any());
+        verify(model, times(6)).addAttribute(any(String.class), any());
     }
 
     @Test
@@ -109,12 +113,23 @@ class OglasControllerTest {
         when(oglasService.createOglas(dto, korisnik)).thenReturn(oglas);
         when(kategorijaService.findById(kategorija1.getId())).thenReturn(Optional.of(kategorija1));
 
-        String viewName = controller.stvoriOglas(dto, userDetails);
+        String viewName = controller.stvoriOglas(dto, bindingResult, model, userDetails);
         assertEquals("redirect:/oglas/" + oglas.getId(), viewName);
 
         verify(korisnikService, times(1)).fetchByUsername("John");
         verify(oglasService, times(1)).createOglas(dto, korisnik);
         verify(kategorijaService, times(1)).findById(kategorija1.getId());
         verify(pripadaKategorijiService, times(1)).addKategorijaToOglas(any(Kategorija.class), any(Oglas.class));
+    }
+
+    @Test
+    void OglasControllerTest_Delete() {
+        Oglas oglas = OglasTestInstances.createOglas1();
+        oglas.setId(1L);
+
+        String viewName = controller.delete(userDetails, oglas.getId());
+        assertEquals("redirect:/moji-oglasi", viewName);
+
+        verify(oglasService, times(1)).deleteOglas(any(Long.class));
     }
 }
