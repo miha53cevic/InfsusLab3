@@ -21,4 +21,6 @@ public interface OglasService {
     List<Oglas> findAllByKategorija(Kategorija kategorija);
 
     Oglas editOglas(EditOglasDTO dto);
+
+    void deleteOglas(Long oglasId);
 }

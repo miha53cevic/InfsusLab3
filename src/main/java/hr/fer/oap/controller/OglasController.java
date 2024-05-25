@@ -133,4 +133,13 @@ public class OglasController {
         });
         return "redirect:/oglas/" + oglas.getId();
     }
+
+    @PostMapping("/{id}/delete")
+    String delete(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable("id") Long oglasId
+    ) {
+        oglasService.deleteOglas(oglasId);
+        return "redirect:/moji-oglasi";
+    }
 }
