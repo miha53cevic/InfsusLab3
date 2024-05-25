@@ -22,9 +22,9 @@ public class KorisnikController {
 
     @GetMapping("/seed")
     public String korisnik() {
-        korisnikService.createKorisnik(new Korisnik("admin@admin.com", "admin", passwordEncoder.encode("password"), (byte)1));
-        korisnikService.createKorisnik(new Korisnik("ivan@ivan.com", "ivan", passwordEncoder.encode("password"), (byte)0));
-        korisnikService.createKorisnik(new Korisnik("pajdo@pajdo.com", "pajdo", passwordEncoder.encode("password"), (byte)0));
+        korisnikService.createKorisnik(new Korisnik("admin@admin.com", "admin", passwordEncoder.encode("password"), (byte) 1));
+        korisnikService.createKorisnik(new Korisnik("ivan@ivan.com", "ivan", passwordEncoder.encode("password"), (byte) 0));
+        korisnikService.createKorisnik(new Korisnik("pajdo@pajdo.com", "pajdo", passwordEncoder.encode("password"), (byte) 0));
         return "Stvoreni novi korisnici: admin, ivan, pajdo (password=password za sve)";
     }
 }

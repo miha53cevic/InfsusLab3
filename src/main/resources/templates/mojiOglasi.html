@@ -8,50 +8,80 @@
 <header th:replace="fragments :: header"></header>
 <main class="container">
 
-    <div class="container mt-5">
-        <h2>Moji oglasi</h2>
-        <br/>
-        <div>
-            <form class="form-inline" method="get" action="">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="searchInput" placeholder="Traži po nazivu"
-                           name="searchNaziv" th:value="${searchNaziv}">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('searchInput').value='';this.form.submit()">Clear</button>
+    <div class="mb-4 align-items-center">
+        <form class="form" method="get" action="">
+            <div class="input-group mb-2">
+                <div class="d-flex align-items-baseline w-100">
+                    <!-- Naziv input field -->
+                    <div class="mt-4 w-100">
+                        <label for="searchInput" class="form-label">Traži prema nazivu</label>
+                        <input type="text" class="form-control mr-4" id="searchInput" placeholder="Traži po nazivu"
+                               name="searchInput" th:value="${searchNaziv}">
+                    </div>
+                    <!-- Kategorije select element -->
+                    <div class="mt-4 w-100 ms-2">
+                        <label for="kategorija" class="form-label">Kategorija</label>
+                        <select class="form-select" id="kategorija" name="kategorija">
+                            <option id="" value="" th:text="Sve">
+                            </option>
+                            <option th:each="kategorija : ${kategorije}"
+                                    th:value="${kategorija.getId()}"
+                                    th:text="${kategorija.getNaziv()}"
+                                    th:selected="${kategorija.getId()} == ${searchKategorija}"
+                            >
+                            </option>
+                        </select>
+                    </div>
+                    <!-- Vrijeme isteka select element -->
+                    <div class="mt-4 w-100 ms-2">
+                        <label for="istekli" class="form-label">Filtriraj prema vremenu isteka</label>
+                        <select class="form-select" id="istekli" name="istekli">
+                            <option th:selected="${'0'} == ${istekli}" value="0">Svi</option>
+                            <option th:selected="${'1'} == ${istekli}" value="1">Istekli</option>
+                            <option th:selected="${'2'} == ${istekli}" value="2">U tijeku</option>
+                        </select>
                     </div>
                 </div>
-            </form>
-        </div>
-        <br/>
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Naziv</th>
-                    <th>Najbolja ponuda</th>
-                    <th>Preostalo vrijeme</th>
-                    <th class="w-25">Akcije</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="oglas, i : ${oglasi}">
-                    <td th:text="${oglas.getId()}"></td>
-                    <td th:text="${oglas.getNaziv()}"></td>
-                    <td>30€</td>
-                    <td th:text="${hoursLeftList[i.index]} + 'h'"></td>
-                    <td class="text-center">
-                        <a class="btn btn-primary" th:href="'/oglas/' + ${oglas.getId()}">Idi na oglas</a>
-                        <a class="btn btn-secondary" th:href="'/oglas/' + ${oglas.getId()} + '/uredi'">Uredi</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <br/>
-        <a class="btn btn-primary" href="/oglas/stvori">Stvori novi oglas</a>
+                <div class="w-100">
+                    <div class="input-group-append d-flex mt-4 align-items-center justify-content-end">
+                        <button type="submit" class="btn btn-primary m-1">Search</button>
+                        <button type="button" class="btn btn-secondary"
+                                onclick="document.getElementById('searchInput').value='';document.getElementById('kategorija').value='';document.getElementById('istekli').value='';this.form.submit()">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Naziv</th>
+                <th>Trenutna ponuda</th>
+                <th>Preostalo vrijeme</th>
+                <th class="w-25">Akcije</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="oglas, i : ${oglasi}">
+                <td th:text="${oglas.getId()}"></td>
+                <td th:text="${oglas.getNaziv()}"></td>
+                <td th:text="${oglas.getPocetnaCijena()}"></td>
+                <td th:text="${hoursLeftList[i.index]} + 'h'"></td>
+                <td class="text-center">
+                    <a class="btn btn-primary" th:href="'/oglas/' + ${oglas.getId()}">Idi na oglas</a>
+                    <a class="btn btn-secondary" th:href="'/oglas/' + ${oglas.getId()} + '/uredi'">Uredi</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <a class="btn btn-primary" href="/oglas/stvori">Stvori novi oglas</a>
 </main>
 <footer th:replace="fragments :: footer"></footer>
 </body>

@@ -1,6 +1,7 @@
 package hr.fer.oap.service.impl;
 
-import hr.fer.oap.dao.dto.CreateEditOglasDTO;
+import hr.fer.oap.dao.dto.CreateOglasDTO;
+import hr.fer.oap.dao.dto.EditOglasDTO;
 import hr.fer.oap.dao.repository.MjestoRepository;
 import hr.fer.oap.dao.repository.OglasRepository;
 import hr.fer.oap.dao.repository.PripadaKategorijiRepository;
@@ -45,10 +46,10 @@ public class OglasServiceJpa implements OglasService {
     }
 
     @Override
-    public Oglas createOglas(CreateEditOglasDTO dto, Korisnik korisnik) {
-        var mjesto = mjestoRepository.findById(dto.getMjesto()).get();
-        var oglas = new Oglas(dto.getNaziv(), dto.getOpis(), dto.getPocetnaCijena(),
-                dto.getPocetnoVrijeme(), dto.getZavrsnoVrijeme(), korisnik, mjesto);
+    public Oglas createOglas(CreateOglasDTO dto, Korisnik korisnik) {
+        var mjesto = mjestoRepository.findById(dto.mjesto()).get();
+        var oglas = new Oglas(dto.naziv(), dto.opis(), dto.pocetnaCijena(),
+                dto.pocetnoVrijeme(), dto.zavrsnoVrijeme(), korisnik, mjesto);
         return this.oglasRepository.save(oglas);
     }
 
@@ -56,5 +57,18 @@ public class OglasServiceJpa implements OglasService {
     public List<Oglas> findAllByKategorija(Kategorija kategorija) {
         var pripadaOglasuLista = pripadaKategorijiRepository.findAllByKategorija(kategorija);
         return pripadaOglasuLista.stream().map(Pripadakategoriji::getOglas).toList();
+    }
+
+    @Override
+    public Oglas editOglas(EditOglasDTO dto) {
+        var mjesto = mjestoRepository.findById(dto.mjesto()).get();
+        var oglas = oglasRepository.findById(dto.oglasId()).get();
+        oglas.setNaziv(dto.naziv());
+        oglas.setOpis(dto.opis());
+        oglas.setMjesto(mjesto);
+        oglas.setPocetnaCijena(dto.pocetnaCijena());
+        oglas.setPocetnoVrijeme(dto.pocetnoVrijeme());
+        oglas.setZavrsnoVrijeme(dto.zavrsnoVrijeme());
+        return oglasRepository.save(oglas);
     }
 }

@@ -12,7 +12,6 @@
         <div class="mt-3">
             <label for="drzava" class="form-label">Drzava</label>
             <select class="form-select" id="drzava" name="odabranaDrzavaOznaka" required onchange="this.form.submit()">
-                <!-- Populate select options with data from your database -->
                 <option th:each="drzava : ${drzave}"
                         th:value="${drzava.getOznaka()}"
                         th:text="${drzava.getNaziv()}"
@@ -25,7 +24,9 @@
 
     <form action="" method="post" class="mt-3">
 
-        <input type="hidden" name="drzava" th:value="${odabranaDrzavaOznaka}" />
+        <input type="hidden" name="drzava"
+               th:value="${odabranaDrzavaOznaka} ? ${odabranaDrzavaOznaka} : ${oglas.getMjesto().getDrzava().getOznaka()}"/>
+        <input type="hidden" name="oglasId" th:value="${oglas.getId()}"/>
 
         <!-- Mjesto select element -->
         <div class="mb-3">
@@ -49,14 +50,16 @@
         <!-- Opis input field -->
         <div class="mb-3">
             <label for="opis" class="form-label">Opis</label>
-            <textarea class="form-control" id="opis" name="opis" rows="3" th:text="${oglas.getOpis()}" required></textarea>
+            <textarea class="form-control" id="opis" name="opis" rows="3" th:text="${oglas.getOpis()}"
+                      required></textarea>
         </div>
 
         <!-- PocetnaCijena input field -->
         <div class="input-group mb-3">
             <div class="me-3">
                 <label for="pocetnaCijena" class="form-label">Pocetna Cijena</label>
-                <input type="number" class="form-control" id="pocetnaCijena" name="pocetnaCijena" th:value="${oglas.getPocetnaCijena()}" required>
+                <input type="number" class="form-control" id="pocetnaCijena" name="pocetnaCijena"
+                       th:value="${oglas.getPocetnaCijena()}" required>
             </div>
         </div>
 
@@ -64,20 +67,22 @@
             <!-- PocetnoVrijeme input field -->
             <div>
                 <label for="pocetnoVrijeme" class="form-label">Pocetno Vrijeme</label>
-                <input type="datetime-local" class="form-control" id="pocetnoVrijeme" name="pocetnoVrijeme" th:value="${oglas.getPocetnoVrijeme()}" required>
+                <input type="datetime-local" class="form-control" id="pocetnoVrijeme" name="pocetnoVrijeme"
+                       th:value="${oglas.getPocetnoVrijeme()}" required>
             </div>
 
             <!-- ZavrsnoVrijeme input field -->
             <div class="ms-3">
                 <label for="zavrsnoVrijeme" class="form-label">Zavrsno Vrijeme</label>
-                <input type="datetime-local" class="form-control" id="zavrsnoVrijeme" name="zavrsnoVrijeme" th:value="${oglas.getZavrsnoVrijeme()}" required>
+                <input type="datetime-local" class="form-control" id="zavrsnoVrijeme" name="zavrsnoVrijeme"
+                       th:value="${oglas.getZavrsnoVrijeme()}" required>
             </div>
         </div>
 
-        <input type="submit" value="Spremi" class="btn btn-primary" />
-        <input type="submit" value="Obrisi" class="btn btn-danger" />
+        <input type="submit" value="Spremi" class="btn btn-primary"/>
+        <input type="submit" value="Obrisi" class="btn btn-danger"/>
 
-        <hr />
+        <hr/>
         <!-- Kategorije -->
         <h2>Kategorije</h2>
         <br/>
@@ -91,20 +96,168 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="oglasKategorija : ${oglasKategorije}">
-                    <td th:text="${oglasKategorija.getId()}"></td>
-                    <td th:text="${oglasKategorija.getNaziv()}"></td>
-                    <td class="text-center">
-                        <button type="button" class="btn btn-primary">Uredi</button>
-                        <button type="button" class="btn btn-danger">Obrisi</button>
-                    </td>
-                </tr>
+                <th:block th:each="oglasKategorija, index : ${oglasKategorije}">
+                    <tr th:id="'kategorijaRedak' + ${index.index}">
+                        <td th:text="${oglasKategorija.getId()}"></td>
+                        <td>
+                            <select class="form-select" th:id="'kategorijaSelect' + ${index.index}" name="kategorija"
+                                    disabled="disabled" required>
+                                <option th:each="kategorija : ${kategorije}"
+                                        th:value="${kategorija.getId()}"
+                                        th:text="${kategorija.getNaziv()}"
+                                        th:selected="${kategorija.getId()} == ${oglasKategorija.getId()}"
+                                >
+                                </option>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <!-- Save Button Form -->
+                            <button type="button" class="btn btn-primary"
+                                    th:onclick="'editSaveKategorija(' + ${index.index} + ', ' + ${oglas.getId()} + ')'"
+                                    th:style="'display: none'"
+                                    th:id="'kategorijaEditSave' + ${index.index}"
+                            >
+                                Spremi
+                            </button>
+                            <!-- Edit Button Form -->
+                            <button type="button" class="btn btn-primary"
+                                    th:onclick="'editKategorija(' + ${index.index} + ', ' + ${oglasKategorije.size()} + ', ' + ${oglasKategorija.getId()} + ')'"
+                                    th:id="'kategorijaEdit' + ${index.index}"
+                            >
+                                Uredi
+                            </button>
+                            <!-- Delete Button Form -->
+                            <button type="button" class="btn btn-danger"
+                                    th:onclick="'deleteKategorija(' + ${oglas.getId()} + ', ' + ${oglasKategorija.getId()} + ')'">
+                                Obrisi
+                            </button>
+                        </td>
+                    </tr>
+                </th:block>
                 </tbody>
             </table>
         </div>
     </form>
-
+    <div id="editKategorijaError" style="display: none">
+        <p class="text-danger">Već postoji novo postavljena kategorija!</p>
+    </div>
+    <br/>
+    <div class="input-group">
+        <select class="form-select" id="dodajKategorijuSelect">
+            <option th:each="kategorija : ${kategorije}"
+                    th:value="${kategorija.getId()}"
+                    th:text="${kategorija.getNaziv()}"
+            >
+            </option>
+        </select>
+        <button type="button" class="btn btn-primary"
+                th:onclick="'addKategorija(' + ${oglas.getId()} + ')'">
+            Dodaj kategoriju
+        </button>
+    </div>
+    <div id="addKategorijaError" style="display: none">
+        <p class="text-danger">Već postoji ta kategorija!</p>
+    </div>
 </main>
+<script th:inline="javascript">
+    function deleteKategorija(oglasId, kategorijaId) {
+        const url = '/pripadaKategoriji/delete';
+        const formData = new FormData();
+        formData.append("oglasId", oglasId);
+        formData.append("kategorijaId", kategorijaId);
+
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }
+
+    function addKategorija(oglasId) {
+        const url = '/pripadaKategoriji/add';
+        const kategorijaId = document.getElementById("dodajKategorijuSelect").value;
+        const formData = new FormData();
+        formData.append("oglasId", oglasId);
+        formData.append("kategorijaId", kategorijaId);
+
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    document.getElementById("addKategorijaError").style.display = "block";
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }
+
+    let staraKategorija = null;
+    let stariRedak = null;
+
+    function editKategorija(kategorijaRedak, ukupnoRedaka, trenutnaKategorijaId) {
+        // AKo nisi kliknul spremi, a mozda si promjenil select vrati na prijasnju vrijednost dok kliknes na sljedeci Uredi
+        if (staraKategorija != null && stariRedak != null) {
+            document.getElementById(`kategorijaSelect${stariRedak}`).value = staraKategorija;
+        }
+        for (let i = 0; i < ukupnoRedaka; i++) {
+            document.getElementById(`kategorijaSelect${i}`).disabled = true;
+            document.getElementById(`kategorijaEditSave${i}`).style.display = 'none';
+            document.getElementById(`kategorijaEdit${i}`).style.display = 'inline';
+        }
+        document.getElementById(`kategorijaSelect${kategorijaRedak}`).disabled = false;
+        document.getElementById(`kategorijaEditSave${kategorijaRedak}`).style.display = 'inline';
+        document.getElementById(`kategorijaEdit${kategorijaRedak}`).style.display = 'none';
+
+        staraKategorija = trenutnaKategorijaId;
+        stariRedak = kategorijaRedak;
+    }
+
+    function editSaveKategorija(kategorijaRedak, oglasId) {
+        const url = '/pripadaKategoriji/edit';
+        const kategorijaId = document.getElementById(`kategorijaSelect${kategorijaRedak}`).value;
+        const formData = new FormData();
+        formData.append("oglasId", oglasId);
+        formData.append("kategorijaId", kategorijaId);
+        formData.append("staraKategorijaId", staraKategorija);
+
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    document.getElementById("editKategorijaError").style.display = "block";
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }
+</script>
 <footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

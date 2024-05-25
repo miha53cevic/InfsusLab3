@@ -3,7 +3,8 @@ package hr.fer.oap.controller;
 import hr.fer.oap.domain.Kategorija;
 import hr.fer.oap.mapping.MappingToFilteredOglasi;
 import hr.fer.oap.mapping.MappingToOglasDuration;
-import hr.fer.oap.service.*;
+import hr.fer.oap.service.KategorijaService;
+import hr.fer.oap.service.OglasService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -43,7 +44,8 @@ public class OglasnikController {
                                     @RequestParam(name = "searchInput", required = false) String naziv,
                                     @RequestParam(name = "kategorija", required = false) Long searchKategorija,
                                     @RequestParam(name = "istekli", required = false) String istekli) {
-        var oglasi = oglasService.fetchAll();;
+        var oglasi = oglasService.fetchAll();
+        ;
         if (searchKategorija != null) {
             Kategorija kat = kategorijaService.findById(searchKategorija).get();
             oglasi = oglasService.findAllByKategorija(kat);
@@ -55,7 +57,7 @@ public class OglasnikController {
 
         if (istekli != null && !istekli.equals("0")) {
             if (istekli.equals("1")) {
-                oglasi = MappingToFilteredOglasi.fromOglasiByTime(oglasi,true);
+                oglasi = MappingToFilteredOglasi.fromOglasiByTime(oglasi, true);
             } else {
                 oglasi = MappingToFilteredOglasi.fromOglasiByTime(oglasi, false);
             }
@@ -67,6 +69,9 @@ public class OglasnikController {
         model.addAttribute("oglasi", oglasi);
         model.addAttribute("kategorije", kategorije);
         model.addAttribute("hoursLeftList", hoursLeftList);
+        model.addAttribute("searchNaziv", naziv);
+        model.addAttribute("searchKategorija", searchKategorija);
+        model.addAttribute("istekli", istekli);
         return "oglasnik";
     }
 

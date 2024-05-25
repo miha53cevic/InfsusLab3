@@ -20,8 +20,8 @@ public class KorisnikDetails implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         var korisnik = this.korisnikRepository.findByIme(username);
-        if(korisnik.isEmpty()) {
-            throw new UsernameNotFoundException("Unknown user "+ username);
+        if (korisnik.isEmpty()) {
+            throw new UsernameNotFoundException("Unknown user " + username);
         }
         var user = korisnik.get();
         return User.withUsername(user.getIme())
