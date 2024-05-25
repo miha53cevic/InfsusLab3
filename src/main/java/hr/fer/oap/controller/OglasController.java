@@ -9,6 +9,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 @Controller()
@@ -89,20 +91,40 @@ public class OglasController {
     @GetMapping("/stvori")
     String stvoriOglasForm(@AuthenticationPrincipal UserDetails userDetails,
                            Model model,
-                           @RequestParam(name = "odabranaDrzavaOznaka", required = false) String odabranaDrzavaOznaka
+                           @RequestParam(name = "odabranaDrzavaOznaka", required = false) String odabranaDrzavaOznaka,
+                           CreateOglasDTO dto
     ) {
         model.addAttribute("username", userDetails.getUsername());
         model.addAttribute("drzave", this.drzavaService.fetchAll());
         model.addAttribute("odabranaDrzavaOznaka", odabranaDrzavaOznaka);
         model.addAttribute("mjesta", mjestoService.fetchByDrzavaOznaka(odabranaDrzavaOznaka));
         model.addAttribute("kategorije", kategorijaService.fetchAll());
+        model.addAttribute("dto", dto);
         return "oglas/stvori";
     }
 
     @PostMapping("/stvori")
     String stvoriOglas(@Valid CreateOglasDTO dto,
+                       BindingResult bindingResult,
+                       Model model,
                        @AuthenticationPrincipal UserDetails userDetails
     ) {
+        if (dto.pocetnoVrijeme() != null && dto.zavrsnoVrijeme() != null) {
+            if (!dto.zavrsnoVrijeme().isAfter(dto.pocetnoVrijeme())) {
+                bindingResult.addError(new FieldError("dto", "zavrsnoVrijeme", "ZavrsnoVrijeme mora biti nakon početnog!"));
+            }
+        }
+        if (bindingResult.hasErrors()) {
+            var mjesto = this.mjestoService.fetchById(dto.mjesto()).get();
+            model.addAttribute("bindingResult", bindingResult);
+            model.addAttribute("username", userDetails.getUsername());
+            model.addAttribute("drzave", this.drzavaService.fetchAll());
+            model.addAttribute("odabranaDrzavaOznaka", mjesto.getDrzava().getOznaka());
+            model.addAttribute("mjesta", mjestoService.fetchByDrzavaOznaka(mjesto.getDrzava().getOznaka()));
+            model.addAttribute("kategorije", kategorijaService.fetchAll());
+            model.addAttribute("dto", dto);
+            return "oglas/stvori";
+        }
         var korisnik = korisnikService.fetchByUsername(userDetails.getUsername()).get();
         var oglas = oglasService.createOglas(dto, korisnik);
         dto.kategorije().forEach(kategorijaId -> {
