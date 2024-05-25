@@ -111,11 +111,21 @@
                             </select>
                         </td>
                         <td class="text-center">
+                            <!-- Save Button Form -->
+                            <button type="button" class="btn btn-primary"
+                                    th:onclick="'editSaveKategorija(' + ${index.index} + ', ' + ${oglas.getId()} + ')'"
+                                    th:style="'display: none'"
+                                    th:id="'kategorijaEditSave' + ${index.index}"
+                            >
+                                Spremi
+                            </button>
                             <!-- Edit Button Form -->
-                            <form action="" method="post"
-                                  style="display:inline-block;">
-                                <button type="submit" class="btn btn-primary">Uredi</button>
-                            </form>
+                            <button type="button" class="btn btn-primary"
+                                    th:onclick="'editKategorija(' + ${index.index} + ', ' + ${oglasKategorije.size()} + ', ' + ${oglasKategorija.getId()} + ')'"
+                                    th:id="'kategorijaEdit' + ${index.index}"
+                            >
+                                Uredi
+                            </button>
                             <!-- Delete Button Form -->
                             <button type="button" class="btn btn-danger"
                                     th:onclick="'deleteKategorija(' + ${oglas.getId()} + ', ' + ${oglasKategorija.getId()} + ')'">
@@ -128,6 +138,9 @@
             </table>
         </div>
     </form>
+    <div id="editKategorijaError" style="display: none">
+        <p class="text-danger">Već postoji novo postavljena kategorija!</p>
+    </div>
     <br/>
     <div class="input-group">
         <select class="form-select" id="dodajKategorijuSelect">
@@ -185,6 +198,54 @@
             .then(response => {
                 if (!response.ok) {
                     document.getElementById("addKategorijaError").style.display = "block";
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }
+
+    let staraKategorija = null;
+    let stariRedak = null;
+
+    function editKategorija(kategorijaRedak, ukupnoRedaka, trenutnaKategorijaId) {
+        // AKo nisi kliknul spremi, a mozda si promjenil select vrati na prijasnju vrijednost dok kliknes na sljedeci Uredi
+        if (staraKategorija != null && stariRedak != null) {
+            document.getElementById(`kategorijaSelect${stariRedak}`).value = staraKategorija;
+        }
+        for (let i = 0; i < ukupnoRedaka; i++) {
+            document.getElementById(`kategorijaSelect${i}`).disabled = true;
+            document.getElementById(`kategorijaEditSave${i}`).style.display = 'none';
+            document.getElementById(`kategorijaEdit${i}`).style.display = 'inline';
+        }
+        document.getElementById(`kategorijaSelect${kategorijaRedak}`).disabled = false;
+        document.getElementById(`kategorijaEditSave${kategorijaRedak}`).style.display = 'inline';
+        document.getElementById(`kategorijaEdit${kategorijaRedak}`).style.display = 'none';
+
+        staraKategorija = trenutnaKategorijaId;
+        stariRedak = kategorijaRedak;
+    }
+
+    function editSaveKategorija(kategorijaRedak, oglasId) {
+        const url = '/pripadaKategoriji/edit';
+        const kategorijaId = document.getElementById(`kategorijaSelect${kategorijaRedak}`).value;
+        const formData = new FormData();
+        formData.append("oglasId", oglasId);
+        formData.append("kategorijaId", kategorijaId);
+        formData.append("staraKategorijaId", staraKategorija);
+
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    document.getElementById("editKategorijaError").style.display = "block";
                     throw new Error('Network response was not ok');
                 }
                 return response.text();

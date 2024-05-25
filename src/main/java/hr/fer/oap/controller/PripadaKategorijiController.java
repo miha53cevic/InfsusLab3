@@ -1,7 +1,7 @@
 package hr.fer.oap.controller;
 
-import hr.fer.oap.dao.dto.CreatePripadaKategorijiDTO;
-import hr.fer.oap.dao.dto.DeletePripadaKategorijiDTO;
+import hr.fer.oap.dao.dto.CreateDeletePripadaKategorijiDTO;
+import hr.fer.oap.dao.dto.EditPripadaKategorijiDTO;
 import hr.fer.oap.service.PripadaKategorijiService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +25,23 @@ public class PripadaKategorijiController {
 
     @PostMapping("/add")
     public String add(
-            @Valid CreatePripadaKategorijiDTO dto,
+            @Valid CreateDeletePripadaKategorijiDTO dto,
             @AuthenticationPrincipal UserDetails user
     ) {
         return pripadaKategorijiService.create(dto).toString();
     }
 
+    @PostMapping("/edit")
+    public String edit(
+            @Valid EditPripadaKategorijiDTO dto,
+            @AuthenticationPrincipal UserDetails user
+    ) {
+        return pripadaKategorijiService.edit(dto).toString();
+    }
+
     @PostMapping("/delete")
     public String delete(
-            @Valid DeletePripadaKategorijiDTO dto,
+            @Valid CreateDeletePripadaKategorijiDTO dto,
             @AuthenticationPrincipal UserDetails user
     ) {
         pripadaKategorijiService.delete(dto);

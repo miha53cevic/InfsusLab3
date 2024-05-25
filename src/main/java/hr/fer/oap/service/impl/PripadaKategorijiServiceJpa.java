@@ -1,7 +1,7 @@
 package hr.fer.oap.service.impl;
 
-import hr.fer.oap.dao.dto.CreatePripadaKategorijiDTO;
-import hr.fer.oap.dao.dto.DeletePripadaKategorijiDTO;
+import hr.fer.oap.dao.dto.CreateDeletePripadaKategorijiDTO;
+import hr.fer.oap.dao.dto.EditPripadaKategorijiDTO;
 import hr.fer.oap.dao.repository.KategorijaRepository;
 import hr.fer.oap.dao.repository.OglasRepository;
 import hr.fer.oap.dao.repository.PripadaKategorijiRepository;
@@ -36,13 +36,13 @@ public class PripadaKategorijiServiceJpa implements PripadaKategorijiService {
     }
 
     @Override
-    public void delete(DeletePripadaKategorijiDTO dto) {
+    public void delete(CreateDeletePripadaKategorijiDTO dto) {
         var pripadaKategoriji = this.pripadaKategorijiRepository.findById(new PripadakategorijiId(dto.oglasId(), dto.kategorijaId())).get();
         this.pripadaKategorijiRepository.delete(pripadaKategoriji);
     }
 
     @Override
-    public Pripadakategoriji create(CreatePripadaKategorijiDTO dto) {
+    public Pripadakategoriji create(CreateDeletePripadaKategorijiDTO dto) {
         var oglas = oglasRepository.findById(dto.oglasId()).get();
         var kategorija = kategorijaRepository.findById(dto.kategorijaId()).get();
         var pripadaKategoriji = pripadaKategorijiRepository.findById(new PripadakategorijiId(oglas.getId(), kategorija.getId()));
@@ -50,5 +50,14 @@ public class PripadaKategorijiServiceJpa implements PripadaKategorijiService {
             throw new Error("Kategorija vec postoji na tom oglasu!");
         }
         return this.pripadaKategorijiRepository.save(new Pripadakategoriji(oglas, kategorija));
+    }
+
+    @Override
+    public Pripadakategoriji edit(EditPripadaKategorijiDTO dto) {
+        var createDTO = new CreateDeletePripadaKategorijiDTO(dto.oglasId(), dto.kategorijaId());
+        var deleteDTO = new CreateDeletePripadaKategorijiDTO(dto.oglasId(), dto.staraKategorijaId());
+        var noviPripadaKategoriji = this.create(createDTO);
+        this.delete(deleteDTO);
+        return noviPripadaKategoriji;
     }
 }
