@@ -14,4 +14,6 @@ public interface PripadaKategorijiRepository extends JpaRepository<Pripadakatego
     List<Pripadakategoriji> findAllByOglas(Oglas oglas);
 
     List<Pripadakategoriji> findAllByKategorija(Kategorija kategorija);
+
+    void deleteByOglas(Oglas oglas);
 }

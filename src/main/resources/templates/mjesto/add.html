@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+<main class="container">
+    <a href="/mjesto/crud" class="btn btn-secondary mt-3">Povratak</a>
+
+    <form action="" method="post" class="mt-3" th:object="${dto}">
+
+        <!-- Naziv input field -->
+        <div class="mb-3">
+            <label for="naziv" class="form-label">Naziv</label>
+            <input type="text" class="form-control" id="naziv" name="naziv" th:field="*{mjestoNaziv}" required>
+        </div>
+
+        <!-- Drzava select element -->
+        <div class="my-3">
+            <label for="drzava" class="form-label">Drzava</label>
+            <select class="form-select" id="drzava" name="drzava" th:field="*{drzavaOznaka}" required>
+                <!-- Populate select options with data from your database -->
+                <option th:each="drzava : ${drzave}"
+                        th:value="${drzava.getOznaka()}"
+                        th:text="${drzava.getNaziv()}"
+                >
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Stvori novo mjesto</button>
+    </form>
+</main>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>
