@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head">
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:replace="fragments :: header"></header>
+<main class="container">
+
+    <div class="mb-4 align-items-center">
+        <form class="form" method="get" action="">
+            <div class="input-group mb-2">
+                <div class="d-flex align-items-baseline w-100">
+                    <!-- Naziv input field -->
+                    <div class="mt-4 w-100">
+                        <label for="searchNaziv" class="form-label">Traži prema nazivu</label>
+                        <input type="text" class="form-control mr-4" id="searchNaziv" placeholder="Traži po nazivu"
+                               name="searchNaziv" th:value="${searchNaziv}">
+                    </div>
+                    <!-- Drzava select element -->
+                    <div class="mt-4 w-100 ms-2">
+                        <label for="searchDrzava" class="form-label">Drzava</label>
+                        <select class="form-select" id="searchDrzava" name="searchDrzava">
+                            <option id="" value="" th:text="Sve">
+                            </option>
+                            <option th:each="drzava : ${drzave}"
+                                    th:value="${drzava.getOznaka()}"
+                                    th:text="${drzava.getNaziv()}"
+                                    th:selected="${drzava.getOznaka()} == ${searchDrzava}"
+                            >
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="w-100">
+                    <div class="input-group-append d-flex mt-4 align-items-center justify-content-end">
+                        <button type="submit" class="btn btn-primary m-1">Search</button>
+                        <button type="button" class="btn btn-secondary"
+                                onclick="document.getElementById('searchDrzava').value='';document.getElementById('searchNaziv').value='';this.form.submit()">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="mb-3">
+        <a class="btn btn-primary" th:href="'/mjesto/add'">Dodaj novo mjesto</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Naziv</th>
+                <th>Država</th>
+                <th class="w-25">Akcije</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="mjesto, index : ${mjesta}">
+                <td th:text="${mjesto.getId()}"></td>
+                <td th:text="${mjesto.getNaziv()}"></td>
+                <td th:text="${mjesto.getDrzava().getNaziv()}"></td>
+                <td class="text-center">
+                    <form th:id="'deleteMjestoForm' + ${index.index}" th:action="'/mjesto/' + ${mjesto.getId()} + '/delete'" method="post">
+                    </form>
+                    <a class="btn btn-secondary" th:href="'/mjesto/' + ${mjesto.getId()} + '/uredi'">Uredi</a>
+                    <input th:form="'deleteMjestoForm' + ${index.index}" th:type="submit" class="btn btn-danger" value="Obrisi" />
+                </td>
+            </tr>
+            </tbody>
+        </table>
+</main>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>
