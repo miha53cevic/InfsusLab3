@@ -42,7 +42,6 @@ public class MojiOglasiController {
                         @RequestParam(name = "istekli", required = false) String istekli
     ) {
         var oglasi = oglasService.fetchAll();
-        ;
         if (searchKategorija != null) {
             Kategorija kat = kategorijaService.findById(searchKategorija).get();
             oglasi = oglasService.findAllByKategorija(kat);

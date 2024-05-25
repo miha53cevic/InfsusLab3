@@ -5,6 +5,7 @@ import hr.fer.oap.dao.repository.PripadaKategorijiRepository;
 import hr.fer.oap.domain.Kategorija;
 import hr.fer.oap.domain.Oglas;
 import hr.fer.oap.domain.Pripadakategoriji;
+import hr.fer.oap.service.KategorijaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class KategorijaService implements hr.fer.oap.service.KategorijaService {
+public class KategorijaServiceJpa implements KategorijaService {
     private final KategorijaRepository kategorijaRepository;
     private final PripadaKategorijiRepository pripadaKategorijiRepository;
 
     @Autowired
-    public KategorijaService(KategorijaRepository repository, PripadaKategorijiRepository pripadaKategorijiRepository) {
+    public KategorijaServiceJpa(KategorijaRepository repository, PripadaKategorijiRepository pripadaKategorijiRepository) {
         this.kategorijaRepository = repository;
         this.pripadaKategorijiRepository = pripadaKategorijiRepository;
     }
