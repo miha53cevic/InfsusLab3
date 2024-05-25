@@ -45,7 +45,6 @@ public class OglasnikController {
                                     @RequestParam(name = "kategorija", required = false) Long searchKategorija,
                                     @RequestParam(name = "istekli", required = false) String istekli) {
         var oglasi = oglasService.fetchAll();
-        ;
         if (searchKategorija != null) {
             Kategorija kat = kategorijaService.findById(searchKategorija).get();
             oglasi = oglasService.findAllByKategorija(kat);
