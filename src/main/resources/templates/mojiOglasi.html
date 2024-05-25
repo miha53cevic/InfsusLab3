@@ -18,7 +18,9 @@
                            name="searchNaziv" th:value="${searchNaziv}">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-primary">Search</button>
-                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('searchInput').value='';this.form.submit()">Clear</button>
+                        <button type="button" class="btn btn-secondary"
+                                onclick="document.getElementById('searchInput').value='';this.form.submit()">Clear
+                        </button>
                     </div>
                 </div>
             </form>
@@ -30,7 +32,7 @@
                 <tr>
                     <th>#</th>
                     <th>Naziv</th>
-                    <th>Najbolja ponuda</th>
+                    <th>Trenutna ponuda</th>
                     <th>Preostalo vrijeme</th>
                     <th class="w-25">Akcije</th>
                 </tr>
@@ -39,7 +41,7 @@
                 <tr th:each="oglas, i : ${oglasi}">
                     <td th:text="${oglas.getId()}"></td>
                     <td th:text="${oglas.getNaziv()}"></td>
-                    <td>30€</td>
+                    <td th:text="${oglas.getPocetnaCijena()}"></td>
                     <td th:text="${hoursLeftList[i.index]} + 'h'"></td>
                     <td class="text-center">
                         <a class="btn btn-primary" th:href="'/oglas/' + ${oglas.getId()}">Idi na oglas</a>

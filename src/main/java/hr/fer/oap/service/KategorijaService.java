@@ -8,7 +8,10 @@ import java.util.Optional;
 
 public interface KategorijaService {
     List<Kategorija> fetchAll();
+
     Kategorija createNewKategorija(Kategorija kategorija);
+
     List<Kategorija> findAllByOglas(Oglas oglas);
+
     Optional<Kategorija> findById(Long id);
 }

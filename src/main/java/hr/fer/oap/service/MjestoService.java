@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface MjestoService {
     List<Mjesto> fetchByDrzavaOznaka(String drzavaOznaka);
+
     Optional<Mjesto> fetchById(Long id);
 }

@@ -6,5 +6,6 @@ import java.util.Optional;
 
 public interface KorisnikService {
     Optional<Korisnik> fetchByUsername(String username);
+
     Korisnik createKorisnik(Korisnik korisnik);
 }

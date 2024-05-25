@@ -6,16 +6,18 @@
 <main class="container">
     <div class="d-flex flex-column">
         <div class="mb-2">
-            <span th:text="${oglas.getNaziv()}" class="font-weight-bold text-uppercase" style="font-size: 1.5em; text-decoration: underline;"></span>
+            <span th:text="${oglas.getNaziv()}" class="font-weight-bold text-uppercase"
+                  style="font-size: 1.5em; text-decoration: underline;"></span>
         </div>
         <div class="flex-grow-1 mb-2">
-            <span style="font-weight: bold;">Najviša ponuda: 30€</span>
+            <span style="font-weight: bold;" th:text="'Trenutna ponuda: ' + ${oglas.getPocetnaCijena()} + '€'"></span>
         </div>
         <div class="flex-grow-1 mb-2">
             Vrijeme početka: <span th:text="${#temporals.format(oglas.getPocetnoVrijeme(), 'dd/MM/yyyy HH:mm')}"></span>
         </div>
         <div class="flex-grow-1 mb-2">
-            Vrijeme završetka: <span th:text="${#temporals.format(oglas.getZavrsnoVrijeme(), 'dd/MM/yyyy HH:mm')}"></span>
+            Vrijeme završetka: <span
+                th:text="${#temporals.format(oglas.getZavrsnoVrijeme(), 'dd/MM/yyyy HH:mm')}"></span>
         </div>
         <div class="flex-grow-1 mb-2">
             Vrijeme do isteka: <span th:text="${hoursLeft} + 'h'"></span>

@@ -4,6 +4,7 @@ import hr.fer.oap.domain.Oglas;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+
 public class MappingToOglasDuration {
     public static long oglasToDuration(Oglas oglas) {
         LocalDateTime now = LocalDateTime.now();

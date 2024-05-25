@@ -13,7 +13,7 @@ public class MappingToFilteredOglasi {
     }
 
     public static List<Oglas> fromOglasiByTime(List<Oglas> oglasiList, Boolean istekli) {
-        if(istekli) {
+        if (istekli) {
             return oglasiList.stream()
                     .filter(oglas -> !oglas.getZavrsnoVrijeme().isAfter(LocalDateTime.now()))
                     .toList();

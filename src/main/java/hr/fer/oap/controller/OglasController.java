@@ -1,6 +1,7 @@
 package hr.fer.oap.controller;
 
-import hr.fer.oap.dao.dto.CreateEditOglasDTO;
+import hr.fer.oap.dao.dto.CreateOglasDTO;
+import hr.fer.oap.dao.dto.EditOglasDTO;
 import hr.fer.oap.mapping.MappingToOglasDuration;
 import hr.fer.oap.service.*;
 import jakarta.validation.Valid;
@@ -8,7 +9,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller()
@@ -21,9 +21,13 @@ public class OglasController {
     private final KategorijaService kategorijaService;
     private final PripadaKategorijiService pripadaKategorijiService;
 
-    public OglasController(MjestoService mjestoService, DrzavaService drzavaService,
-                           OglasService oglasService, KorisnikService korisnikService,
-                           KategorijaService kategorijaService, PripadaKategorijiService pripadaKategorijiService) {
+    public OglasController(MjestoService mjestoService,
+                           DrzavaService drzavaService,
+                           OglasService oglasService,
+                           KorisnikService korisnikService,
+                           KategorijaService kategorijaService,
+                           PripadaKategorijiService pripadaKategorijiService
+    ) {
         this.mjestoService = mjestoService;
         this.drzavaService = drzavaService;
         this.oglasService = oglasService;
@@ -34,7 +38,9 @@ public class OglasController {
 
     @GetMapping("/{id}")
     String index(@AuthenticationPrincipal UserDetails userDetails,
-                 @PathVariable("id") Long oglasId, Model model) {
+                 @PathVariable("id") Long oglasId,
+                 Model model
+    ) {
         var oglas = oglasService.fetchById(oglasId).get();
         Long hoursLeft = MappingToOglasDuration.oglasToDuration(oglas);
         var mjesto = oglas.getMjesto().getNaziv();
@@ -51,9 +57,11 @@ public class OglasController {
     }
 
     @GetMapping("/{id}/uredi")
-    String editForm(@AuthenticationPrincipal UserDetails userDetails, Model model,
-                @RequestParam(name = "odabranaDrzavaOznaka", required = false) String odabranaDrzavaOznaka,
-                @PathVariable("id") Long oglasId) {
+    String editForm(@AuthenticationPrincipal UserDetails userDetails,
+                    Model model,
+                    @RequestParam(name = "odabranaDrzavaOznaka", required = false) String odabranaDrzavaOznaka,
+                    @PathVariable("id") Long oglasId
+    ) {
         var oglas = oglasService.fetchById(oglasId).get();
         if (odabranaDrzavaOznaka == null) {
             odabranaDrzavaOznaka = oglas.getMjesto().getDrzava().getOznaka();
@@ -65,20 +73,24 @@ public class OglasController {
         model.addAttribute("odabranaDrzavaOznaka", odabranaDrzavaOznaka);
         model.addAttribute("mjesta", mjestoService.fetchByDrzavaOznaka(odabranaDrzavaOznaka));
         model.addAttribute("oglasKategorije", oglasKategorije);
+        model.addAttribute("kategorije", kategorijaService.fetchAll());
         return "oglas/edit";
     }
 
-    @Validated
     @PostMapping("/{id}/uredi")
-    String edit(@AuthenticationPrincipal UserDetails userDetails, @Valid @ModelAttribute CreateEditOglasDTO dto) {
-        var korisnik = korisnikService.fetchByUsername(userDetails.getUsername()).get();
-        var oglas = oglasService.createOglas(dto, korisnik);
+    String edit(
+            @Valid EditOglasDTO dto,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        oglasService.editOglas(dto);
         return "redirect:/moji-oglasi";
     }
 
     @GetMapping("/stvori")
-    String stvoriOglasForm(@AuthenticationPrincipal UserDetails userDetails, Model model,
-                           @RequestParam(name = "odabranaDrzavaOznaka", required = false) String odabranaDrzavaOznaka) {
+    String stvoriOglasForm(@AuthenticationPrincipal UserDetails userDetails,
+                           Model model,
+                           @RequestParam(name = "odabranaDrzavaOznaka", required = false) String odabranaDrzavaOznaka
+    ) {
         model.addAttribute("username", userDetails.getUsername());
         model.addAttribute("drzave", this.drzavaService.fetchAll());
         model.addAttribute("odabranaDrzavaOznaka", odabranaDrzavaOznaka);
@@ -87,12 +99,13 @@ public class OglasController {
         return "oglas/stvori";
     }
 
-    @Validated
     @PostMapping("/stvori")
-    String stvoriOglas(@AuthenticationPrincipal UserDetails userDetails, @Valid @ModelAttribute CreateEditOglasDTO dto) {
+    String stvoriOglas(@Valid CreateOglasDTO dto,
+                       @AuthenticationPrincipal UserDetails userDetails
+    ) {
         var korisnik = korisnikService.fetchByUsername(userDetails.getUsername()).get();
         var oglas = oglasService.createOglas(dto, korisnik);
-        dto.getKategorije().forEach(kategorijaId -> {
+        dto.kategorije().forEach(kategorijaId -> {
             var kategorija = kategorijaService.findById(kategorijaId).get();
             pripadaKategorijiService.addKategorijaToOglas(kategorija, oglas);
         });
