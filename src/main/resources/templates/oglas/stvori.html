@@ -20,14 +20,14 @@
         </div>
     </form>
 
-    <form action="" method="post" class="mt-3" th:if="${odabranaDrzavaOznaka}">
+    <form action="" method="post" class="mt-3" th:if="${odabranaDrzavaOznaka}" th:object="${dto}">
 
         <input type="hidden" name="drzava" th:value="${odabranaDrzavaOznaka}"/>
 
         <!-- Mjesto select element -->
         <div class="mb-3">
             <label for="mjesto" class="form-label">Mjesto</label>
-            <select class="form-select" id="mjesto" name="mjesto" required>
+            <select class="form-select" id="mjesto" name="mjesto" th:field="*{mjesto}" required>
                 <option th:each="mjesto : ${mjesta}"
                         th:value="${mjesto.getId()}"
                         th:text="${mjesto.getNaziv()}"
@@ -39,38 +39,55 @@
         <!-- Naziv input field -->
         <div class="mb-3">
             <label for="naziv" class="form-label">Naziv</label>
-            <input type="text" class="form-control" id="naziv" name="naziv" required>
+            <input type="text" class="form-control" id="naziv" name="naziv" th:field="*{naziv}" required>
+            <p class="text-danger" th:if="${bindingResult} ? ${bindingResult.hasFieldErrors('naziv')} : false">Naziv
+                mora biti
+                maksimalno 100
+                znakova!</p>
         </div>
 
         <!-- Opis input field -->
         <div class="mb-3">
             <label for="opis" class="form-label">Opis</label>
-            <textarea class="form-control" id="opis" name="opis" rows="3" required></textarea>
+            <textarea class="form-control" id="opis" name="opis" rows="3" th:field="*{opis}" required></textarea>
+            <p class="text-danger" th:if="${bindingResult} ? ${bindingResult.hasFieldErrors('opis')} : false">Opis mora
+                biti maksimalno 200
+                znakova!</p>
         </div>
 
         <!-- PocetnaCijena input field -->
         <div class="mb-3">
             <label for="pocetnaCijena" class="form-label">Pocetna Cijena</label>
-            <input type="number" class="form-control" id="pocetnaCijena" name="pocetnaCijena" required>
+            <input type="number" class="form-control" id="pocetnaCijena" name="pocetnaCijena"
+                   th:field="*{pocetnaCijena}" required>
+            <p class="text-danger" th:if="${bindingResult} ? ${bindingResult.hasFieldErrors('pocetnaCijena')} : false">
+                PocetnaCijena mora biti >=
+                0</p>
         </div>
 
         <!-- PocetnoVrijeme input field -->
         <div class="mb-3">
             <label for="pocetnoVrijeme" class="form-label">Pocetno Vrijeme</label>
-            <input type="datetime-local" class="form-control" id="pocetnoVrijeme" name="pocetnoVrijeme" required>
+            <input type="datetime-local" class="form-control" id="pocetnoVrijeme" name="pocetnoVrijeme"
+                   th:value="*{pocetnoVrijeme}" required>
+            <p class="text-danger" th:if="${bindingResult} ? ${bindingResult.hasFieldErrors('pocetnoVrijeme')} : false">
+                Pocetno vrijeme mora biti u sadašnjosti ili budućnosti</p>
         </div>
 
         <!-- ZavrsnoVrijeme input field -->
         <div class="mb-3">
             <label for="zavrsnoVrijeme" class="form-label">Zavrsno Vrijeme</label>
-            <input type="datetime-local" class="form-control" id="zavrsnoVrijeme" name="zavrsnoVrijeme" required>
+            <input type="datetime-local" class="form-control" id="zavrsnoVrijeme" name="zavrsnoVrijeme"
+                   th:value="*{zavrsnoVrijeme}" required>
+            <p class="text-danger" th:if="${bindingResult} ? ${bindingResult.hasFieldErrors('zavrsnoVrijeme')} : false">
+                Zavrsno vrijeme mora biti u budućnosti i nakon početnog!</p>
         </div>
 
         <!-- Kategorije-->
         <!-- Kategorije select element -->
         <div class="mb-3">
             <label for="kategorije" class="form-label">Kategorije</label>
-            <select multiple class="form-select" id="kategorije" name="kategorije" required>
+            <select multiple class="form-select" id="kategorije" name="kategorije" th:field="*{kategorije}" required>
                 <option th:each="kategorija : ${kategorije}"
                         th:value="${kategorija.getId()}"
                         th:text="${kategorija.getNaziv()}"

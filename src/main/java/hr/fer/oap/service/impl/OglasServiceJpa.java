@@ -12,6 +12,7 @@ import hr.fer.oap.domain.Pripadakategoriji;
 import hr.fer.oap.service.OglasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,5 +71,13 @@ public class OglasServiceJpa implements OglasService {
         oglas.setPocetnoVrijeme(dto.pocetnoVrijeme());
         oglas.setZavrsnoVrijeme(dto.zavrsnoVrijeme());
         return oglasRepository.save(oglas);
+    }
+
+    @Override
+    @Transactional
+    public void deleteOglas(Long oglasId) {
+        var oglas = oglasRepository.findById(oglasId).get();
+        this.pripadaKategorijiRepository.deleteByOglas(oglas);
+        this.oglasRepository.delete(oglas);
     }
 }

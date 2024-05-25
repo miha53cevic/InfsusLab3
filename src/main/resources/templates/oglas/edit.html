@@ -80,64 +80,66 @@
         </div>
 
         <input type="submit" value="Spremi" class="btn btn-primary"/>
-        <input type="submit" value="Obrisi" class="btn btn-danger"/>
-
-        <hr/>
-        <!-- Kategorije -->
-        <h2>Kategorije</h2>
-        <br/>
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Naziv</th>
-                    <th class="w-25">Akcije</th>
-                </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="oglasKategorija, index : ${oglasKategorije}">
-                    <tr th:id="'kategorijaRedak' + ${index.index}">
-                        <td th:text="${oglasKategorija.getId()}"></td>
-                        <td>
-                            <select class="form-select" th:id="'kategorijaSelect' + ${index.index}" name="kategorija"
-                                    disabled="disabled" required>
-                                <option th:each="kategorija : ${kategorije}"
-                                        th:value="${kategorija.getId()}"
-                                        th:text="${kategorija.getNaziv()}"
-                                        th:selected="${kategorija.getId()} == ${oglasKategorija.getId()}"
-                                >
-                                </option>
-                            </select>
-                        </td>
-                        <td class="text-center">
-                            <!-- Save Button Form -->
-                            <button type="button" class="btn btn-primary"
-                                    th:onclick="'editSaveKategorija(' + ${index.index} + ', ' + ${oglas.getId()} + ')'"
-                                    th:style="'display: none'"
-                                    th:id="'kategorijaEditSave' + ${index.index}"
-                            >
-                                Spremi
-                            </button>
-                            <!-- Edit Button Form -->
-                            <button type="button" class="btn btn-primary"
-                                    th:onclick="'editKategorija(' + ${index.index} + ', ' + ${oglasKategorije.size()} + ', ' + ${oglasKategorija.getId()} + ')'"
-                                    th:id="'kategorijaEdit' + ${index.index}"
-                            >
-                                Uredi
-                            </button>
-                            <!-- Delete Button Form -->
-                            <button type="button" class="btn btn-danger"
-                                    th:onclick="'deleteKategorija(' + ${oglas.getId()} + ', ' + ${oglasKategorija.getId()} + ')'">
-                                Obrisi
-                            </button>
-                        </td>
-                    </tr>
-                </th:block>
-                </tbody>
-            </table>
-        </div>
+        <input type="submit" form="deleteOglas" value="Obrisi" class="btn btn-danger"/>
     </form>
+    <form id="deleteOglas" method="post" th:action="'/oglas/' + ${oglas.getId()} + '/delete'">
+    </form>
+
+    <hr/>
+    <!-- Kategorije -->
+    <h2>Kategorije</h2>
+    <br/>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Naziv</th>
+                <th class="w-25">Akcije</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="oglasKategorija, index : ${oglasKategorije}">
+                <tr th:id="'kategorijaRedak' + ${index.index}">
+                    <td th:text="${oglasKategorija.getId()}"></td>
+                    <td>
+                        <select class="form-select" th:id="'kategorijaSelect' + ${index.index}" name="kategorija"
+                                disabled="disabled" required>
+                            <option th:each="kategorija : ${kategorije}"
+                                    th:value="${kategorija.getId()}"
+                                    th:text="${kategorija.getNaziv()}"
+                                    th:selected="${kategorija.getId()} == ${oglasKategorija.getId()}"
+                            >
+                            </option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <!-- Save Button Form -->
+                        <button type="button" class="btn btn-primary"
+                                th:onclick="'editSaveKategorija(' + ${index.index} + ', ' + ${oglas.getId()} + ')'"
+                                th:style="'display: none'"
+                                th:id="'kategorijaEditSave' + ${index.index}"
+                        >
+                            Spremi
+                        </button>
+                        <!-- Edit Button Form -->
+                        <button type="button" class="btn btn-primary"
+                                th:onclick="'editKategorija(' + ${index.index} + ', ' + ${oglasKategorije.size()} + ', ' + ${oglasKategorija.getId()} + ')'"
+                                th:id="'kategorijaEdit' + ${index.index}"
+                        >
+                            Uredi
+                        </button>
+                        <!-- Delete Button Form -->
+                        <button type="button" class="btn btn-danger"
+                                th:onclick="'deleteKategorija(' + ${oglas.getId()} + ', ' + ${oglasKategorija.getId()} + ')'">
+                            Obrisi
+                        </button>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
     <div id="editKategorijaError" style="display: none">
         <p class="text-danger">Već postoji novo postavljena kategorija!</p>
     </div>
